@@ -103,13 +103,13 @@ It simulates platforms like BookMyShow, allowing users to view, hold, and confir
 ## **Screenshots**
 
 ## Screen 1
-![Screen 1](screenshots/Screen_1.png)
+![Screen 1](screenshots/Screen_3.png)
 
 ## Screen 2
 ![Screen 2](screenshots/Screen_2.png)
 
 ## Screen 3
-![Screen 3](screenshots/Screen_3.png)
+![Screen 3](screenshots/Screen_1.png)
 
 
 
