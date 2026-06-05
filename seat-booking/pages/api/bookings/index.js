@@ -14,6 +14,8 @@ const handler = async(req,res)=>
 
      const userId = req.headers["x-user-id"];
 
+     console.log("User Id:",userId);
+
      if(!userId)
      {
         return res.status(400).json(

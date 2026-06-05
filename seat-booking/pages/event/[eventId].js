@@ -45,7 +45,6 @@ export default function EventPage() {
 
   const holdSeats = async () => {
     if (selectedSeats.length === 0) return;
-
     setError(null);
 
     try {
@@ -116,7 +115,6 @@ export default function EventPage() {
       }
 
       toast.success("Booking Confirmed!");
-
     } catch (err) {
       console.error(err);
       setError("Booking request failed");
@@ -132,71 +130,121 @@ export default function EventPage() {
   };
 
   if (loading) {
-    return <p className={styles.container}>Loading seats...</p>;
+    return <p className={styles.loading_text}>Loading Seats...</p>;
   }
 
   return (
-    <div className={styles.container}>
-      <ToastContainer position="top-right" autoClose={5000} />
+  <div className={styles.page}>
+    <ToastContainer position="top-right" autoClose={5000} />
 
-      <h1 className={styles.event_head}>Event: {eventId}</h1>
-
-      {error && <p className={styles.error}>{error}</p>}
-
-      <div className={styles.seat_grid}>
-        {seats.map((seat) => {
-          let seatClass = styles.available;
-
-          if (seat.status === "BOOKED") seatClass = styles.booked;
-          else if (seat.status === "HELD" && seat.heldBy === userId)
-            seatClass = styles.held_by_me;
-          else if (seat.status === "HELD") seatClass = styles.held_by_other;
-
-          if (selectedSeats.includes(seat.seatId)) seatClass = styles.selected;
-
-          return (
-            <div key={seat.seatId}>
-              <button
-                className={`${styles.seat} ${seatClass}`}
-                disabled={
-                  seat.status === "BOOKED" ||
-                  (seat.status === "HELD" && seat.heldBy !== userId)
-                }
-                onClick={() => toggleSeat(seat.seatId)}
-              >
-                {seat.seatId}
-              </button>
-
-              {seat.status === "HELD" && seat.heldBy === userId && (
-                <div className={styles.timer}>{getCountdown(seat)}s</div>
-              )}
-            </div>
-          );
-        })}
+    <div className={styles.card}>
+      
+      {/* TOP */}
+      <div className={styles.heroCard}>
+        <h1 className={styles.eventTitle}>🎭 Real-Time Seat Booking</h1>
+        <p className={styles.eventSubtitle}>
+          Select your seats and watch availability update live!
+        </p>
+        <div className={styles.legend}>
+          <div className={styles.legendItem}>
+            <div className={`${styles.seat} ${styles.available}`}></div>
+            <span className = {styles.legtext}>Available</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div className={`${styles.seat} ${styles.selected}`}></div>
+            <span className = {styles.legtext}>Selected</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div className={`${styles.seat} ${styles.held_by_me}`}></div>
+            <span className = {styles.legtext}>Held by You</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div className={`${styles.seat} ${styles.held_by_other}`}></div>
+            <span className = {styles.legtext}>Held by Others</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div className={`${styles.seat} ${styles.booked}`}></div>
+            <span className = {styles.legtext}>Booked</span>
+          </div>
+        </div>
       </div>
 
+      {/* ERROR */}
+      {error && <div className={styles.errorBox}>{error}</div>}
+
+      {/* MIDDLE (SEATS) */}
+      <div className={styles.seatContainer}>
+        <div className={styles.seat_grid}>
+          {seats.map((seat) => {
+            let seatClass = styles.available;
+
+            if (seat.status === "BOOKED") seatClass = styles.booked;
+            else if (seat.status === "HELD" && seat.heldBy === userId)
+              seatClass = styles.held_by_me;
+            else if (seat.status === "HELD")
+              seatClass = styles.held_by_other;
+
+            if (selectedSeats.includes(seat.seatId))
+              seatClass = styles.selected;
+
+            return (
+              <div key={seat.seatId} className={styles.seatWrapper}>
+                <button
+                  className={`${styles.seat} ${seatClass}`}
+                  disabled={
+                    seat.status === "BOOKED" ||
+                    (seat.status === "HELD" && seat.heldBy !== userId)
+                  }
+                  onClick={() => toggleSeat(seat.seatId)}
+                >
+                  {seat.seatId}
+                </button>
+
+                {seat.status === "HELD" &&
+                  seat.heldBy === userId && (
+                    <div className={styles.timer}>
+                      ⏳ {getCountdown(seat)}s
+                    </div>
+                  )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* BOTTOM */}
       <div className={styles.actions}>
         <button
-          className={styles.button}
+          className={styles.holdButton}
           onClick={holdSeats}
           disabled={selectedSeats.length === 0}
         >
-          Hold Selected Seats (2 min)
+          🎟 Hold Seats
         </button>
 
-        <button className={styles.confirm_button} onClick={confirmBooking}>
-          Confirm Booking
+        <button
+          className={styles.confirmButton}
+          onClick={confirmBooking}
+        >
+          ✅ Confirm Booking
         </button>
 
-        <button className={styles.secandary_button} onClick={() => router.push("/my_bookings")}>
-            My Bookings
+        <button
+          className={styles.bookingButton}
+          onClick={() => router.push("/my_bookings")}
+        >
+          📋 My Bookings
         </button>
 
-        <button className={styles.third_button} onClick={() => router.push("/")}>
-                ← Go Back
+        <button
+          className={styles.backButton}
+          onClick={() => router.push("/")}
+        >
+          ← Back Home
         </button>
-        
       </div>
+
     </div>
-  );
+  </div>
+);
 }
