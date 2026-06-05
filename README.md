@@ -99,7 +99,7 @@ It simulates platforms like BookMyShow, allowing users to view, hold, and confir
    4. MongoDB uniqueness prevents double booking
 
 
-
+<!-- 
 ## **Screenshots**
 
 ## Screen 1
@@ -109,7 +109,7 @@ It simulates platforms like BookMyShow, allowing users to view, hold, and confir
 ![Screen 2](screenshots/Screen_2.png)
 
 ## Screen 3
-![Screen 3](screenshots/Screen_1.png)
+![Screen 3](screenshots/Screen_1.png) -->
 
 
 
